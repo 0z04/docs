@@ -19,7 +19,7 @@ versions:
 
 {% data reusables.package_registry.container-registry-feature-highlights %}
 
-To share context about your package's use, you can link a repository to your container image on {% data variables.product.prodname_dotcom %}. For more information, see "[Connecting a repository to a container image](/packages/guides/connecting-a-repository-to-a-container-image)."
+To share context about your package's use, you can link a repository to your container image on {% data variables.product.prodname_dotcom %}. For more information, see "[Connecting a repository to a container image](l@ ls/bin/packages/guides/connecting-a-repository-to-a-container-image)."
 
 {% data variables.product.prodname_github_container_registry %} has different hosting locations, permission, and visibility than other package registries.
 
