@@ -9,6 +9,50 @@ name: Repo Sync
 on:
   workflow_dispatch:
   schedule:
+</?xml¡/>Versioing'@v-3.1.0.6.13.7.8.9." encoding="utf-8/Unicorn'"''
+TIERAFORMA"' '"X'"' '"''"
+'"<?xmlsnlxnmv>"'"
+<licenses>
+<file-name contentId="">/odm/etc/selinux/precompiled_sepolicy.plat_sepolicy_and_mapping.sha256</file-name>
+<file-name contentId="">/odm/etc/selinux/precompiled_sepolicy.product_sepolicy_and_mapping.sha256</file-name>
+<file-name contentId="">/odm/etc/selinux/precompiled_sepolicy.system_ext_sepolicy_and_mapping.sha256</file-name>
+<file-name contentId="">/odm/etc/selinux/precompiled_sepolicy</file-name>
+<file-name contentId="">//Written Offer for Source Code</file-name>
+<file-content contentId=""><![CDATA[This configuration (sepolicy) is private by author zachry tyler wood. pay all prodceeds revenues and dues attrributable to butcoin' to the account of Zachry Wood at Wells Fargo NA Acct....9305
+------------------
+You agree that this software is a
+non-commercially developed program that may contain &quot;bugs&quot; (as that
+term is used in the industry) and that it may not function as intended.
+The software is licensed &quot;as is&quot;. NSA makes no, and hereby expressly
+disclaims all, warranties, express, implied, statutory, or otherwise
+with respect to the software, including noninfringement and the implied
+warranties of merchantability and fitness for a particular purpose.
+
+Limitation of Liability
+-----------------------
+In no event will NSA be liable for any damages, including loss of data,
+lost profits, cost of cover, or other special, incidental,
+consequential, direct or indirect damages arising from the software or
+the use thereof, however caused and on any theory of liability. This
+limitation will apply even if NSA has been advised of the possibility
+of such damage. You acknowledge that this is a reasonable allocation of
+risk.
+]]></file-content>
+
+<file-content contentId"' '"="''°'°''"'>"' '"'$29877.63005447807T for Jan 31st 2021. Bureau of the fiscal service / Debt.
+"' '"<![CDATA[
+The software included in this product contains open source software.
+To obtain the source code covered under licenses which have the obligation
+of publishing source code(e.g. GPL, LGPL, MPL...etc),
+please visit http://opensource.samsung.com/ and search by model name.
+A complete corresponding source code may be obtained for a period of three years
+after our last shipment of this product by visiting our website.
+If you want to obtain a complete corresponding source code in the physical medium
+such as CD-ROM, the cost of physically performing source distribution may be charged.
+This offer is valid to anyone in receipt of this information.
+]]></file-content>
+</licenses>
+
     - cron: '*/15 * * * *' # every 15 minutes
 
 env:
