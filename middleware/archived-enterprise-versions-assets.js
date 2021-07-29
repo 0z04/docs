@@ -11,7 +11,7 @@ const ONE_DAY = 24 * 60 * 60 // 1 day in seconds
 //
 // See also ./archived-enterprise-versions.js for non-CSS/JS paths
 
-module.exports = async (req, res, next) => {
+module.exports = async function archivedEnterpriseVersionsAssets (req, res, next) {
   const { isArchived, requestedVersion } = isArchivedVersion(req)
   if (!isArchived) return next()
 
@@ -32,6 +32,6 @@ module.exports = async (req, res, next) => {
     res.set('cache-control', `public, max-age=${ONE_DAY}`)
     return res.send(r.body)
   } catch (err) {
-    return next()
+    return next(404)
   }
 }

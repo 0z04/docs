@@ -1,10 +1,13 @@
 const path = require('path')
 const cheerio = require('cheerio')
 const Page = require('../../lib/page')
-const prerenderedObjects = require('../../lib/graphql/static/prerendered-objects')
+const readJsonFile = require('../../lib/read-json-file')
+const prerenderedObjects = readJsonFile('./lib/graphql/static/prerendered-objects.json')
 const allVersions = require('../../lib/all-versions')
 const enterpriseServerReleases = require('../../lib/enterprise-server-releases')
 const nonEnterpriseDefaultVersion = require('../../lib/non-enterprise-default-version')
+const { latest } = require('../../lib/enterprise-server-releases')
+const enterpriseServerVersions = Object.keys(allVersions).filter(v => v.startsWith('enterprise-server@'))
 
 const getLinkData = require('../../lib/get-link-data')
 jest.mock('../../lib/get-link-data')
@@ -13,7 +16,7 @@ jest.mock('../../lib/get-link-data')
 const nonEnterpriseDefaultPlan = nonEnterpriseDefaultVersion.split('@')[0]
 
 const opts = {
-  relativePath: 'github/collaborating-with-issues-and-pull-requests/about-branches.md',
+  relativePath: 'github/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-branches.md',
   basePath: path.join(__dirname, '../../content'),
   languageCode: 'en'
 }
@@ -21,7 +24,7 @@ const opts = {
 describe('Page class', () => {
   test('preserves file path info', async () => {
     const page = await Page.init(opts)
-    expect(page.relativePath).toBe('github/collaborating-with-issues-and-pull-requests/about-branches.md')
+    expect(page.relativePath).toBe(opts.relativePath)
     expect(page.fullPath.includes(page.relativePath)).toBe(true)
   })
 
@@ -35,7 +38,7 @@ describe('Page class', () => {
   })
 
   describe('showMiniToc page property', () => {
-    let article, articleWithFM, tocPage, mapTopic
+    let article, articleWithFM, tocPage
 
     beforeAll(async () => {
       article = await Page.init({
@@ -56,13 +59,6 @@ describe('Page class', () => {
         basePath: path.join(__dirname, '../fixtures'),
         languageCode: 'en'
       })
-
-      mapTopic = await Page.init({
-        mapTopic: true,
-        relativePath: article.relativePath,
-        basePath: article.basePath,
-        languageCode: article.languageCode
-      })
     })
 
     test('is true by default on articles', () => {
@@ -73,12 +69,9 @@ describe('Page class', () => {
       expect(articleWithFM.showMiniToc).toBe(false)
     })
 
+    // products, categories, and map topics have index.md pages
     test('is undefined by default on index.md pages', () => {
       expect(tocPage.showMiniToc).toBeUndefined()
-    })
-
-    test('is undefined by default on map topics', () => {
-      expect(mapTopic.showMiniToc).toBeUndefined()
     })
   })
 
@@ -88,7 +81,7 @@ describe('Page class', () => {
       const context = {
         page: { version: `enterprise-server@${enterpriseServerReleases.latest}` },
         currentVersion: `enterprise-server@${enterpriseServerReleases.latest}`,
-        currentPath: '/en/github/collaborating-with-issues-and-pull-requests/about-branches',
+        currentPath: '/en/github/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-branches',
         currentLanguage: 'en'
       }
       const rendered = await page.render(context)
@@ -112,7 +105,7 @@ describe('Page class', () => {
       const context = {
         page: { version: nonEnterpriseDefaultVersion },
         currentVersion: nonEnterpriseDefaultVersion,
-        currentPath: '/en/github/collaborating-with-issues-and-pull-requests/about-branches',
+        currentPath: '/en/github/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-branches',
         currentLanguage: 'en'
       }
       await page.render(context)
@@ -123,7 +116,7 @@ describe('Page class', () => {
 
     test('does not rewrite links that include deprecated enterprise release numbers', async () => {
       const page = await Page.init({
-        relativePath: 'admin/enterprise-management/migrating-from-github-enterprise-1110x-to-2123.md',
+        relativePath: 'admin/enterprise-management/updating-the-virtual-machine-and-physical-resources/migrating-from-github-enterprise-1110x-to-2123.md',
         basePath: path.join(__dirname, '../../content'),
         languageCode: 'en'
       })
@@ -146,7 +139,7 @@ describe('Page class', () => {
       const context = {
         page: { version: nonEnterpriseDefaultVersion },
         currentVersion: nonEnterpriseDefaultVersion,
-        currentPath: `/en/${nonEnterpriseDefaultVersion}/github/collaborating-with-issues-and-pull-requests/about-branches`,
+        currentPath: `/en/${nonEnterpriseDefaultVersion}/github/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-branches`,
         currentLanguage: 'en'
       }
       const rendered = await page.render(context)
@@ -167,7 +160,7 @@ describe('Page class', () => {
       const context = {
         currentVersion: `enterprise-server@${enterpriseServerReleases.latest}`,
         currentLanguage: 'en',
-        enterpriseServerVersions: Object.keys(allVersions).filter(id => id.startsWith('enterprise-server@'))
+        enterpriseServerVersions
       }
       let rendered = await page.render(context)
       let $ = cheerio.load(rendered)
@@ -189,6 +182,36 @@ describe('Page class', () => {
       $ = cheerio.load(rendered)
       expect($.text()).not.toBe('This text should render on any actively supported version of Enterprise Server')
       expect($.text()).toBe('This text should only render on non-Enterprise')
+    })
+
+    test('support next to-be-released Enterprise Server version in frontmatter', async () => {
+      // This fixture has `enterprise-server: '>=3.1'` hardcoded in the frontmatter
+      const page = await Page.init({
+        relativePath: 'page-versioned-for-next-enterprise-release.md',
+        basePath: path.join(__dirname, '../fixtures'),
+        languageCode: 'en'
+      })
+      // set version to 3.0
+      const context = {
+        currentVersion: 'enterprise-server@3.0',
+        currentLanguage: 'en'
+      }
+      await expect(() => { return page.render(context) }).not.toThrow()
+    })
+
+    test('support next GitHub AE version in frontmatter', async () => {
+      // This fixture has `github-ae: 'next'` hardcoded in the frontmatter
+      const page = await Page.init({
+        relativePath: 'page-versioned-for-ghae-next.md',
+        basePath: path.join(__dirname, '../fixtures'),
+        languageCode: 'en'
+      })
+      // set version to @latest
+      const context = {
+        currentVersion: 'github-ae@latest',
+        currentLanguage: 'en'
+      }
+      await expect(() => { return page.render(context) }).not.toThrow()
     })
   })
 
@@ -235,8 +258,9 @@ describe('Page class', () => {
 
     test('sets versioned values', async () => {
       const page = await Page.init(opts)
-      expect(page.permalinks.find(permalink => permalink.pageVersion === nonEnterpriseDefaultVersion).href).toBe('/en/github/collaborating-with-issues-and-pull-requests/about-branches')
-      expect(page.permalinks.find(permalink => permalink.pageVersion === `enterprise-server@${enterpriseServerReleases.oldestSupported}`).href).toBe(`/en/enterprise-server@${enterpriseServerReleases.oldestSupported}/github/collaborating-with-issues-and-pull-requests/about-branches`)
+      const expectedPath = 'github/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-branches'
+      expect(page.permalinks.find(permalink => permalink.pageVersion === nonEnterpriseDefaultVersion).href).toBe(`/en/${expectedPath}`)
+      expect(page.permalinks.find(permalink => permalink.pageVersion === `enterprise-server@${enterpriseServerReleases.oldestSupported}`).href).toBe(`/en/enterprise-server@${enterpriseServerReleases.oldestSupported}/${expectedPath}`)
     })
 
     test('homepage permalinks', async () => {
@@ -245,17 +269,18 @@ describe('Page class', () => {
         basePath: path.join(__dirname, '../../content'),
         languageCode: 'en'
       })
-      expect(page.permalinks.find(permalink => permalink.pageVersion === 'homepage').href).toBe('/en')
+      expect(page.permalinks.find(permalink => permalink.pageVersion === nonEnterpriseDefaultVersion).href).toBe('/en')
       expect(page.permalinks.find(permalink => permalink.pageVersion === `enterprise-server@${enterpriseServerReleases.oldestSupported}`).href).toBe(`/en/enterprise-server@${enterpriseServerReleases.oldestSupported}`)
     })
 
     test('permalinks for dotcom-only pages', async () => {
       const page = await Page.init({
-        relativePath: 'github/getting-started-with-github/signing-up-for-a-new-github-account.md',
+        relativePath: 'github/authenticating-to-github/troubleshooting-ssh/using-ssh-over-the-https-port.md',
         basePath: path.join(__dirname, '../../content'),
         languageCode: 'en'
       })
-      expect(page.permalinks.find(permalink => permalink.pageVersion === nonEnterpriseDefaultVersion).href).toBe('/en/github/getting-started-with-github/signing-up-for-a-new-github-account')
+      const expectedPath = '/en/github/authenticating-to-github/troubleshooting-ssh/using-ssh-over-the-https-port'
+      expect(page.permalinks.find(permalink => permalink.pageVersion === nonEnterpriseDefaultVersion).href).toBe(expectedPath)
       expect(page.permalinks.length).toBe(1)
     })
 
@@ -283,11 +308,12 @@ describe('Page class', () => {
 
     test('permalinks for non-GitHub.com products with Enterprise versions', async () => {
       const page = await Page.init({
-        relativePath: '/insights/installing-and-configuring-github-insights/about-github-insights.md',
+        relativePath: '/insights/installing-and-configuring-github-insights/installing-and-updating-github-insights/about-github-insights.md',
         basePath: path.join(__dirname, '../../content'),
         languageCode: 'en'
       })
-      expect(page.permalinks.find(permalink => permalink.pageVersion === `enterprise-server@${enterpriseServerReleases.latest}`).href).toBe(`/en/enterprise-server@${enterpriseServerReleases.latest}/insights/installing-and-configuring-github-insights/about-github-insights`)
+      const expectedPath = `/en/enterprise-server@${enterpriseServerReleases.latest}/insights/installing-and-configuring-github-insights/installing-and-updating-github-insights/about-github-insights`
+      expect(page.permalinks.find(permalink => permalink.pageVersion === `enterprise-server@${enterpriseServerReleases.latest}`).href).toBe(expectedPath)
       const pageVersions = page.permalinks.map(permalink => permalink.pageVersion)
       expect(pageVersions.length).toBeGreaterThan(1)
       expect(pageVersions.includes(nonEnterpriseDefaultVersion)).toBe(false)
@@ -306,15 +332,23 @@ describe('Page class', () => {
     })
 
     it('includes learning tracks specified in frontmatter', async () => {
-      expect(page.learningTracks).toStrictEqual(['track_1', 'track_2', 'non_existing_track'])
+      expect(page.learningTracks).toStrictEqual([
+        'track_1',
+        'track_2',
+        'non_existing_track',
+        '{% if currentVersion == "free-pro-team@latest" %}dotcom_only_track{% endif %}',
+        '{% if currentVersion != "free-pro-team@latest" %}enterprise_only_track{% endif %}'
+      ])
     })
 
     it('renders learning tracks that have been defined', async () => {
+      getLinkData.mockImplementation((guides) => { return guides })
       const guides = ['/path/guide1', '/path/guide2']
       const context = {
         currentLanguage: 'en',
         currentProduct: 'snowbird',
         currentVersion: nonEnterpriseDefaultVersion,
+        enterpriseServerVersions,
         site: {
           data: {
             'learning-tracks': {
@@ -322,9 +356,21 @@ describe('Page class', () => {
                 track_1: {
                   title: 'title',
                   description: 'description',
-                  guides
+                  guides,
+                  featured_track: '{% if currentVersion == "free-pro-team@latest" %}true{% else %}false{% endif %}'
                 },
                 track_2: {
+                  title: 'title',
+                  description: 'description',
+                  guides,
+                  featured_track: '{% if enterpriseServerVersions contains currentVersion %}true{% else %}false{% endif %}'
+                },
+                dotcom_only_track: {
+                  title: 'title',
+                  description: 'description',
+                  guides
+                },
+                enterprise_only_track: {
                   title: 'title',
                   description: 'description',
                   guides
@@ -334,9 +380,30 @@ describe('Page class', () => {
           }
         }
       }
+      // Test that Liquid versioning is respected during rendering.
+      // Start with Dotcom.
       await page.render(context)
+      // To actually render the guides in this test, we would have to load context.pages and context.redirects;
+      // To avoid that we can just test that the function was called with the expected data.
       expect(getLinkData).toHaveBeenCalledWith(guides, context)
+      // Tracks for dotcom should exclude enterprise_only_track and the featured track_1.
       expect(page.learningTracks).toHaveLength(2)
+      const dotcomTrackNames = page.learningTracks.map(t => t.trackName)
+      expect(dotcomTrackNames.includes('track_2')).toBe(true)
+      expect(dotcomTrackNames.includes('dotcom_only_track')).toBe(true)
+      expect(page.featuredTrack.trackName === 'track_1').toBeTruthy()
+      expect(page.featuredTrack.trackName === 'track_2').toBeFalsy()
+
+      // Switch to Enterprise.
+      context.currentVersion = `enterprise-server@${latest}`
+      await page.render(context)
+      // Tracks for enterprise should exclude dotcom_only_track and the featured track_2.
+      expect(page.learningTracks).toHaveLength(2)
+      const ghesTrackNames = page.learningTracks.map(t => t.trackName)
+      expect(ghesTrackNames.includes('track_1')).toBe(true)
+      expect(ghesTrackNames.includes('enterprise_only_track')).toBe(true)
+      expect(page.featuredTrack.trackName === 'track_1').toBeFalsy()
+      expect(page.featuredTrack.trackName === 'track_2').toBeTruthy()
     })
   })
 
@@ -367,6 +434,7 @@ describe('Page class', () => {
       })
       const guides = ['/path/guide1', '/path/guide2', '/path/guide3']
       const context = {
+        currentVersion: nonEnterpriseDefaultVersion,
         currentLanguage: 'en'
       }
       await page.render(context)
@@ -423,15 +491,22 @@ describe('Page class', () => {
     // There are none of these in the content at this time!
     })
 
-    // Note this test will go out of date when we deprecate 2.20
-    test('pages that apply to newer enterprise versions', async () => {
+    test.skip('pages that apply to newer enterprise versions', async () => {
+    // There are none of these in the content at this time!
+    })
+
+    test('pages that use short names in versions frontmatter', async () => {
       const page = await Page.init({
-        relativePath: 'github/administering-a-repository/comparing-releases.md',
-        basePath: path.join(__dirname, '../../content'),
+        relativePath: 'short-versions.md',
+        basePath: path.join(__dirname, '../fixtures'),
         languageCode: 'en'
       })
-      expect(nonEnterpriseDefaultPlan in page.versions).toBe(true)
-      expect(page.versions['enterprise-server']).toBe('>=2.21')
+      expect(page.versions.fpt).toBe('*')
+      expect(page.versions.ghes).toBe('>3.0')
+      expect(page.versions.ghae).toBeUndefined()
+      expect(page.applicableVersions.includes('free-pro-team@latest')).toBe(true)
+      expect(page.applicableVersions.includes(`enterprise-server@${latest}`)).toBe(true)
+      expect(page.applicableVersions.includes(`github-ae@latest`)).toBe(false)
     })
 
     test('index page', async () => {
@@ -451,7 +526,49 @@ describe('Page class', () => {
       })
 
       expect(nonEnterpriseDefaultPlan in page.versions).toBe(false)
-      expect(page.versions['enterprise-server']).toBe('*')
+      expect(page.versions.ghes).toBe('*')
+    })
+
+    test('feature versions frontmatter', async () => {
+      // This fixture file has the frontmatter:
+      //
+      // versions:
+      //   fpt: '*'
+      //   ghes: '*'
+      //   feature: 'placeholder'
+      //
+      // and placeholder.yml has:
+      //
+      // versions:
+      //   ghes: '<2.22'
+      //   ghae: '*'
+      //
+      // So we expect to get the versioning from both.
+      const page = await Page.init({
+        relativePath: 'feature-versions-frontmatter.md',
+        basePath: path.join(__dirname, '../fixtures'),
+        languageCode: 'en'
+      })
+  
+      // Test the raw page data.
+      expect(page.versions.fpt).toBe('*')
+      expect(page.versions.ghes).toBe('>2.21')
+      expect(page.versions.ghae).toBeUndefined()
+      // The `feature` prop gets deleted by lib/get-applicable-versions, so it's undefined.
+      expect(page.versions.feature).toBeUndefined()
+  
+      // Test the resolved versioning, where GHES releases specified in frontmatter and in 
+      // feature versions are combined (i.e., one doesn't overwrite the other).
+      // We can't test that GHES 2.21 is _not_ included here (which it shouldn't be), 
+      // because lib/get-applicable-versions only returns currently supported versions,
+      // so as soon as 2.21 is deprecated, a test for that _not_ to exist will not be meaningful.
+      // But by testing that the _latest_ GHES version is returned, we can ensure that the 
+      // the frontmatter GHES `*` is not being overwritten by the placeholder's GHES `<2.22`.
+      expect(page.applicableVersions.includes('free-pro-team@latest')).toBe(true)
+      expect(page.applicableVersions.includes(`enterprise-server@${latest}`)).toBe(true)
+      expect(page.applicableVersions.includes('github-ae@latest')).toBe(true)
+      expect(page.applicableVersions.includes('feature')).toBe(false)
+      expect(page.applicableVersions.includes('placeholder')).toBe(false)
     })
   })
 
@@ -464,6 +581,18 @@ describe('Page class', () => {
       })
       expect(page.defaultPlatform).toBeDefined()
       expect(page.defaultPlatform).toBe('linux')
+    })
+  })
+
+  describe('tool specific content', () => {
+    test('page.defaultTool frontmatter', async () => {
+      const page = await Page.init({
+        relativePath: 'default-tool.md',
+        basePath: path.join(__dirname, '../fixtures'),
+        languageCode: 'en'
+      })
+      expect(page.defaultTool).toBeDefined()
+      expect(page.defaultTool).toBe('cli')
     })
   })
 })

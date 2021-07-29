@@ -1,6 +1,5 @@
 module.exports = createCodeSamples
 
-const { URL } = require('url')
 const urlTemplate = require('url-template')
 const { stringify } = require('javascript-stringify')
 const { get, mapValues, snakeCase } = require('lodash')
@@ -42,11 +41,23 @@ function toShellExample ({ route, serverUrl }) {
     ? `application/vnd.github.${requiredPreview.name}-preview+json`
     : 'application/vnd.github.v3+json'
 
+  let requestBodyParams = `-d '${JSON.stringify(params)}'`
+  // If the content type is application/x-www-form-urlencoded the format of
+  // the shell example is --data-urlencode param1=value1 --data-urlencode param2=value2
+  if (route.operation.contentType === 'application/x-www-form-urlencoded') {
+    requestBodyParams = ''
+    const paramNames = Object.keys(params)
+    paramNames.forEach(elem => {
+      requestBodyParams = `${requestBodyParams} --data-urlencode ${elem}=${params[elem]}`
+    })
+    requestBodyParams = requestBodyParams.trim()
+  }
+
   const args = [
     method !== 'GET' && `-X ${method}`,
     defaultAcceptHeader ? `-H "Accept: ${defaultAcceptHeader}"` : '',
-    new URL(path, serverUrl).href,
-    Object.keys(params).length && `-d '${JSON.stringify(params)}'`
+    `${serverUrl}${path}`,
+    Object.keys(params).length && requestBodyParams
   ].filter(Boolean)
   return `curl \\\n  ${args.join(' \\\n  ')}`
 }
@@ -103,9 +114,11 @@ function getExamplePathParams ({ operation }) {
 }
 
 function getExampleBodyParams ({ operation }) {
+  const contentType = Object.keys(get(operation, 'requestBody.content', []))[0]
   let schema
   try {
-    schema = operation.requestBody.content['application/json'].schema
+    schema = operation.requestBody.content[contentType].schema
+    if (!schema.properties) return {}
   } catch (noRequestBody) {
     return {}
   }
@@ -114,15 +127,20 @@ function getExampleBodyParams ({ operation }) {
     return { [paramName]: getExampleParamValue(paramName, schema) }
   }
 
-  if (schema.oneOf) {
+  if (schema.oneOf && schema.oneOf[0].type) {
     schema = schema.oneOf[0]
+  } else if (schema.anyOf && schema.anyOf[0].type) {
+    schema = schema.anyOf[0]
   }
+
   const props =
     schema.required && schema.required.length > 0
       ? schema.required
       : Object.keys(schema.properties).slice(0, 1)
+
   return props.reduce((dict, propName) => {
     const propSchema = schema.properties[propName]
+
     if (!propSchema.deprecated) {
       dict[propName] = getExampleParamValue(propName, propSchema)
     }
@@ -137,8 +155,8 @@ function getExampleParamValue (name, schema) {
   }
 
   // TODO: figure out the right behavior here
-  if (schema.oneOf) return getExampleParamValue(name, schema.oneOf[0])
-  if (schema.anyOf) return getExampleParamValue(name, schema.anyOf[0])
+  if (schema.oneOf && schema.oneOf[0].type) return getExampleParamValue(name, schema.oneOf[0])
+  if (schema.anyOf && schema.anyOf[0].type) return getExampleParamValue(name, schema.anyOf[0])
 
   switch (schema.type) {
     case 'string':
