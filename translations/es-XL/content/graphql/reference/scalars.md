@@ -2,9 +2,13 @@
 title: Escalares
 redirect_from:
   - /v4/scalar
+  - /v4/reference/scalar
 versions:
-  free-pro-team: '*'
-  enterprise-server: '*'
+  fpt: '*'
+  ghes: '*'
+  ghae: '*'
+topics:
+  - API
 ---
 
 ### Acerca de los escalares

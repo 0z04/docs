@@ -4,8 +4,10 @@ intro: 'Puedes configurar los ejecutores autoalojados para usar un servidor prox
 redirect_from:
   - /actions/automating-your-workflow-with-github-actions/using-a-proxy-server-with-self-hosted-runners
 versions:
-  free-pro-team: '*'
-  enterprise-server: '>=2.22'
+  fpt: '*'
+  ghes: '*'
+  ghae: '*'
+type: tutorial
 ---
 
 {% data reusables.actions.enterprise-beta %}

@@ -5,8 +5,11 @@ redirect_from:
   - /v3/enterprise-admin
   - /v3/enterprise
 versions:
-  free-pro-team: '*'
-  enterprise-server: '*'
+  fpt: '*'
+  ghes: '*'
+  ghae: '*'
+topics:
+  - API
 ---
 
 You can use these {% data variables.product.prodname_ghe_cloud %} endpoints to administer your enterprise account.

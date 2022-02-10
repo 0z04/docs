@@ -4,8 +4,11 @@ intro: Aprende cómo resolver los problemas más comunes que las personas pueden
 redirect_from:
   - /v3/troubleshooting
 versions:
-  free-pro-team: '*'
-  enterprise-server: '*'
+  fpt: '*'
+  ghes: '*'
+  ghae: '*'
+topics:
+  - API
 ---
 
 

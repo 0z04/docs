@@ -3,8 +3,11 @@ title: Licencias
 redirect_from:
   - /v3/licenses
 versions:
-  free-pro-team: '*'
-  enterprise-server: '*'
+  fpt: '*'
+  ghes: '*'
+  ghae: '*'
+topics:
+  - API
 ---
 
 La API de licencias devuelve metadatos acerca de las liciencias de código abierto populares y acerca de la información sobre un archivo de licencia específico de un proyecto.

@@ -5,7 +5,10 @@ redirect_from:
   - /articles/dmca-counter-notice-how-to/
   - /articles/guide-to-submitting-a-dmca-counter-notice
 versions:
-  free-pro-team: '*'
+  fpt: '*'
+topics:
+  - Policy
+  - Legal
 ---
 
 Esta guía describe la información que GitHub necesita para procesar una contra notificación de DMCA. Si tienes preguntas más generales sobre qué es la DMCA o cómo procesa GitHub las solicitudes de retiro de DMCA, por favor revisa nuestra [política de retiro de DMCA](/articles/dmca-takedown-policy).

@@ -5,8 +5,10 @@ redirect_from:
   - /github/automating-your-workflow-with-github-actions/about-self-hosted-runners
   - /actions/automating-your-workflow-with-github-actions/about-self-hosted-runners
 versions:
-  free-pro-team: '*'
-  enterprise-server: '>=2.22'
+  fpt: '*'
+  ghes: '*'
+  ghae: '*'
+type: overview
 ---
 
 {% data reusables.actions.enterprise-beta %}

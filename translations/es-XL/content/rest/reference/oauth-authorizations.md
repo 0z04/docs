@@ -4,8 +4,7 @@ redirect_from:
   - /v3/oauth_authorizations
   - /v3/oauth-authorizations
 versions:
-  free-pro-team: '*'
-  enterprise-server: '*'
+  ghes: '*'
 ---
 
 {% data reusables.apps.deprecating_token_oauth_authorizations %}

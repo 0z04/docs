@@ -4,8 +4,11 @@ intro: 'Puedes ejecutar consultas en datos reales de {% data variables.product.p
 redirect_from:
   - /v4/guides/using-the-explorer
 versions:
-  free-pro-team: '*'
-  enterprise-server: '*'
+  fpt: '*'
+  ghes: '*'
+  ghae: '*'
+topics:
+  - API
 ---
 
 ## Acerca del explorador de GraphQL

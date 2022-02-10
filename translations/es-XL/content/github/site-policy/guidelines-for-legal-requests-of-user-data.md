@@ -4,7 +4,10 @@ redirect_from:
   - /law-enforcement-guidelines/
   - /articles/guidelines-for-legal-requests-of-user-data
 versions:
-  free-pro-team: '*'
+  fpt: '*'
+topics:
+  - Policy
+  - Legal
 ---
 
 ¿Eres un agente de la policía que lleva a cabo una investigación que pueda implicar contenido de usuario alojado en GitHub? O quizá seas una persona consciente de la privacidad y te gustaría saber qué información compartimos con las fuerzas policiales y bajo qué circunstancias. Cualquiera que sea la razón, estás en la página correcta.

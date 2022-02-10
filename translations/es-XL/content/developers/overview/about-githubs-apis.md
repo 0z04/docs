@@ -4,8 +4,11 @@ intro: 'Aprende sobre las API de {% data variables.product.prodname_dotcom %} pa
 redirect_from:
   - /v3/versions
 versions:
-  free-pro-team: '*'
-  enterprise-server: '*'
+  fpt: '*'
+  ghes: '*'
+  ghae: '*'
+topics:
+  - API
 ---
 
 {% if currentVersion == "free-pro-team@latest" or currentVersion ver_gt '2.9' %}

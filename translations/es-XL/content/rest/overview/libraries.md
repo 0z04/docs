@@ -5,8 +5,11 @@ redirect_from:
   - /libraries/
   - /v3/libraries
 versions:
-  free-pro-team: '*'
-  enterprise-server: '*'
+  fpt: '*'
+  ghes: '*'
+  ghae: '*'
+topics:
+  - API
 ---
 
 <div class="jumbotron libraries-jumbotron">

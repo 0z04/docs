@@ -4,7 +4,10 @@ redirect_from:
   - /eu-safe-harbor/
   - /articles/global-privacy-practices
 versions:
-  free-pro-team: '*'
+  fpt: '*'
+topics:
+  - Policy
+  - Legal
 ---
 
 Fecha de entrada en vigor: 22 de julio del 2020

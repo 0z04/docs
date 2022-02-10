@@ -3,8 +3,11 @@ title: Meta
 redirect_from:
   - /v3/meta
 versions:
-  free-pro-team: '*'
-  enterprise-server: '*'
+  fpt: '*'
+  ghes: '*'
+  ghae: '*'
+topics:
+  - API
 ---
 
 {% include rest_operations_at_current_path %}

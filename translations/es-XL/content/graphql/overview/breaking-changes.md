@@ -4,8 +4,11 @@ intro: 'Aprende sobre los cambios sustanciales recientes y venideros a la API de
 redirect_from:
   - /v4/breaking_changes
 versions:
-  free-pro-team: '*'
-  enterprise-server: '*'
+  fpt: '*'
+  ghes: '*'
+  ghae: '*'
+topics:
+  - API
 ---
 
 ### Acerca de los cambios sustanciales

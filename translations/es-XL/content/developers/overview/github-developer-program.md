@@ -4,7 +4,9 @@ intro: 'Si creas herramientas que se integren con {% data variables.product.prod
 redirect_from:
   - /program
 versions:
-  free-pro-team: '*'
+  fpt: '*'
+topics:
+  - API
 ---
 
 ¿Estás creando una aplicación que se integra con GitHub? ¡Regístrate para nuestro Programa de Desarrollador! Las posibilidades son infinitas, y disfrutarás del reconocimiento de la comunidad. [Regístrate ahora](https://github.com/developer/register)

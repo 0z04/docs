@@ -3,8 +3,11 @@ title: Gists
 redirect_from:
   - /v3/gists
 versions:
-  free-pro-team: '*'
-  enterprise-server: '*'
+  fpt: '*'
+  ghes: '*'
+  ghae: '*'
+topics:
+  - API
 ---
 
 ### Autenticación

@@ -3,8 +3,11 @@ title: Reacciones
 redirect_from:
   - /v3/reactions
 versions:
-  free-pro-team: '*'
-  enterprise-server: '*'
+  fpt: '*'
+  ghes: '*'
+  ghae: '*'
+topics:
+  - API
 ---
 
 ### Tipos de reacción

@@ -3,8 +3,11 @@ title: Usuarios
 redirect_from:
   - /v3/users
 versions:
-  free-pro-team: '*'
-  enterprise-server: '*'
+  fpt: '*'
+  ghes: '*'
+  ghae: '*'
+topics:
+  - API
 ---
 
 Muchos de los recursos en la API de los usuarios proporcionan un atajo para obtener información acerca del usuario autenticado actualmente. Si una URL de solicitud no incluye un parámetro de `{username}`, entonces la respuesta será para el usuario que inició sesión (y deberás pasar la [información de autenticación](/rest/overview/resources-in-the-rest-api#authentication) con tu solicitud). La información privada adicional, tal como si un usuario habilitó la autenticación de dos factores, se incluye cuando ingresó con la autenticación básica o con OAuth con el alcance de `user`.

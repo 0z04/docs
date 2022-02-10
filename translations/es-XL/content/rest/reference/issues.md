@@ -3,8 +3,11 @@ title: Problemas
 redirect_from:
   - /v3/issues
 versions:
-  free-pro-team: '*'
-  enterprise-server: '*'
+  fpt: '*'
+  ghes: '*'
+  ghae: '*'
+topics:
+  - API
 ---
 
 ### Tipos de mendios personalizados para los informes de problemas

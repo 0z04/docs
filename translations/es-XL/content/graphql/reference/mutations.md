@@ -2,9 +2,13 @@
 title: Mutaciones
 redirect_from:
   - /v4/mutation
+  - /v4/reference/mutation
 versions:
-  free-pro-team: '*'
-  enterprise-server: '*'
+  fpt: '*'
+  ghes: '*'
+  ghae: '*'
+topics:
+  - API
 ---
 
 ### Acerca de las mutaciones

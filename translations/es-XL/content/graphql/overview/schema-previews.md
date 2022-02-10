@@ -4,8 +4,11 @@ intro: 'Puedes obtener una vista previa de las características y cambios por ve
 redirect_from:
   - /v4/previews
 versions:
-  free-pro-team: '*'
-  enterprise-server: '*'
+  fpt: '*'
+  ghes: '*'
+  ghae: '*'
+topics:
+  - API
 ---
 
 ### Acerca de las vistas previas del modelo

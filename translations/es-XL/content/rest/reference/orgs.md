@@ -4,8 +4,11 @@ allowTitleToDifferFromFilename: true
 redirect_from:
   - /v3/orgs
 versions:
-  free-pro-team: '*'
-  enterprise-server: '*'
+  fpt: '*'
+  ghes: '*'
+  ghae: '*'
+topics:
+  - API
 ---
 
 {% for operation in currentRestOperations %}

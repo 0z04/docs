@@ -3,7 +3,10 @@ title: Disposición de seguridad legal del programa de recompensas de errores de
 redirect_from:
   - /articles/github-bug-bounty-program-legal-safe-harbor
 versions:
-  free-pro-team: '*'
+  fpt: '*'
+topics:
+  - Policy
+  - Legal
 ---
 
 ### Resumen

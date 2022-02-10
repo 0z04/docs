@@ -5,8 +5,11 @@ redirect_from:
   - /guides/building-a-ci-server/
   - /v3/guides/building-a-ci-server
 versions:
-  free-pro-team: '*'
-  enterprise-server: '*'
+  fpt: '*'
+  ghes: '*'
+  ghae: '*'
+topics:
+  - API
 ---
 
 

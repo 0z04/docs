@@ -4,8 +4,11 @@ intro: Puedes administrar tu cuenta empresarial y las organizaciones que le pert
 redirect_from:
   - /v4/guides/managing-enterprise-accounts
 versions:
-  free-pro-team: '*'
-  enterprise-server: '>=2.19'
+  fpt: '*'
+  ghes: '*'
+  ghae: '*'
+topics:
+  - API
 ---
 
 ### Acerca de administrar cuentas empresariales con GraphQL

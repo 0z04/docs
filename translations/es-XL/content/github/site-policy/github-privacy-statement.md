@@ -1,14 +1,17 @@
 ---
 title: Declaración de Privacidad de GitHub
 redirect_from:
-  - /privacidad/
+  - /privacy/
   - /privacy-policy/
   - /privacy-statement/
   - /github-privacy-policy/
   - /articles/github-privacy-policy/
   - /articles/github-privacy-statement/
 versions:
-  free-pro-team: '*'
+  fpt: '*'
+topics:
+  - Policy
+  - Legal
 ---
 
 Fecha de entrada en vigor: 22 de julio del 2020

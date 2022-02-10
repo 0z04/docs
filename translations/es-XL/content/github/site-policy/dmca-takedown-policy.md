@@ -7,7 +7,10 @@ redirect_from:
   - /articles/dmca-takedown/
   - /articles/dmca-takedown-policy
 versions:
-  free-pro-team: '*'
+  fpt: '*'
+topics:
+  - Policy
+  - Legal
 ---
 
 Bienvenido a la Guía sobre la Ley de Derechos de Autor del Milenio Digital de GitHub, comúnmente conocida como la "DMCA". Esta página no está pensada como un manual extenso del estatuto. Sin embargo, si has recibido un aviso de retiro de la DMCA orientado al contenido que has publicado en GitHub o si eres un titular de derechos que busca proponer dicho aviso, esperamos que esta página ayude a desmitificar la ley un poco, así como nuestras políticas para cumplirla.

@@ -5,8 +5,11 @@ redirect_from:
   - /v4/guides/intro-to-graphql
   - /graphql/guides/intro-to-graphql
 versions:
-  free-pro-team: '*'
-  enterprise-server: '*'
+  fpt: '*'
+  ghes: '*'
+  ghae: '*'
+topics:
+  - API
 ---
 
 ### Terminología de GraphQL

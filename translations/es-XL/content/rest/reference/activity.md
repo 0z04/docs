@@ -3,8 +3,11 @@ title: Actividad
 redirect_from:
   - /v3/activity
 versions:
-  free-pro-team: '*'
-  enterprise-server: '*'
+  fpt: '*'
+  ghes: '*'
+  ghae: '*'
+topics:
+  - API
 ---
 
 {% for operation in currentRestOperations %}
@@ -55,7 +58,7 @@ Para obtener un canal en formato de Atom, debes especificar el tipo `application
 #### Respuesta
 
 ```shell
-Status: 200 OK
+HTTP/1.1 200 OK
 ```
 
 ```xml

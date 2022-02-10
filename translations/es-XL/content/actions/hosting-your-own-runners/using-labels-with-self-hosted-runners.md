@@ -2,8 +2,10 @@
 title: Utilizar etiquetas con ejecutores auto-hospedados
 intro: Puedes utilizar etiquetas para organizar tus ejecutores auto-hospedados según sus características.
 versions:
-  free-pro-team: '*'
-  enterprise-server: '>=2.22'
+  fpt: '*'
+  ghes: '*'
+  ghae: '*'
+type: tutorial
 ---
 
 {% data reusables.actions.enterprise-beta %}

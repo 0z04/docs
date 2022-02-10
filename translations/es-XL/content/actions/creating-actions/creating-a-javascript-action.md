@@ -8,8 +8,13 @@ redirect_from:
   - /actions/automating-your-workflow-with-github-actions/creating-a-javascript-action
   - /actions/building-actions/creating-a-javascript-action
 versions:
-  free-pro-team: '*'
-  enterprise-server: '>=2.22'
+  fpt: '*'
+  ghes: '*'
+  ghae: '*'
+type: tutorial
+topics:
+  - Action development
+  - JavaScript
 ---
 
 {% data reusables.actions.enterprise-beta %}

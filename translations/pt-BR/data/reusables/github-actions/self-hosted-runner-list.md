@@ -1,1 +1,1 @@
- 1. Localize a lista de runners em "Runners auto-hospedados".
+ 1. Localize a lista de executores em {% ifversion fpt %}"Executores"{% else %}"Executores auto-hospedados"{% endif %}.

@@ -5,8 +5,9 @@ redirect_from:
   - /github/automating-your-workflow-with-github-actions/using-self-hosted-runners-in-a-workflow
   - /actions/automating-your-workflow-with-github-actions/using-self-hosted-runners-in-a-workflow
 versions:
-  free-pro-team: '*'
-  enterprise-server: '>=2.22'
+  fpt: '*'
+  ghes: '*'
+  ghae: '*'
 type: tutorial
 ---
 
@@ -29,7 +30,7 @@ type: tutorial
 
 * `self-hosted`: セルフホストランナーに適用されるデフォルトのラベル。
 * `linux`、`windows`、`macOS`: オペレーティングシステムに基づいて適用されます。
-* `x86`、`x64`、`ARM`、`ARM64`: ハードウェアアーキテクチャに基づいて適用されます。
+* `x64`, `ARM`, or `ARM64`: Applied depending on hardware architecture.
 
 ワークフローのYAMLを使って、これらのラベルの組み合わせに対してジョブを送信できます。 この例では、3つのラベルすべてにマッチするセルフホストランナーが、ジョブを実行する資格を持つことになります。
 

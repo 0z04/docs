@@ -4,7 +4,10 @@ redirect_from:
   - /articles/name-squatting-policy/
   - /articles/github-username-policy
 versions:
-  free-pro-team: '*'
+  fpt: '*'
+topics:
+  - Policy
+  - Legal
 ---
 
 Los nombres de cuentas de GitHub se proporcionan dependiendo de quién los reclame primero, y se pretende que se comiencen a utilizar activamente de inmediato.

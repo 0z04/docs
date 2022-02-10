@@ -1,11 +1,15 @@
 ---
 title: Pesquisar
+intro: 'A API de pesquisa de {% data variables.product.product_name %} permite que você procure o item específico de forma eficiente.'
 redirect_from:
   - /v3/search
 versions:
-  free-pro-team: '*'
-  enterprise-server: '*'
-  github-ae: '*'
+  fpt: '*'
+  ghes: '*'
+  ghae: '*'
+topics:
+  - API
+miniTocMaxHeadingLevel: 3
 ---
 
 A API de pesquisa ajuda a pesquisar o item específico que você deseja encontrar. Por exemplo, você pode encontrar um usuário ou um arquivo específico em um repositório. Pense nisso da mesma forma que você pensa em realizar uma pesquisa no Google. Ele é projetado para ajudá-lo a encontrar o resultado que você está procurando (ou talvez os poucos resultados que você está procurando). Assim como pesquisar no Google, às vezes, você quer ver algumas páginas com resultados de pesquisa para que você possa encontrar o item que melhor atenda às suas necessidades. Para atender a essa necessidade, a API de pesquisa do {% data variables.product.product_name %} fornece **até 1.000 resultados para cada pesquisa**.
@@ -34,7 +38,7 @@ Uma consulta pode conter qualquer combinação de qualificadores de pesquisa com
 SEARCH_KEYWORD_1 SEARCH_KEYWORD_N QUALIFIER_1 QUALIFIER_N
 ```
 
-Por exemplo, se você quisesse pesquisar todos os _repositórios_ de propriedade de `defunkt` que continham a palavra `GitHub` e `Octocat` no arquivo LEIAME, você usaria a consulta seguinte com o ponto de extremidade _pesquisar repositórios_:
+Por exemplo, se você quisesse pesquisar todos os _repositórios_ de propriedade de `defunkt` que continham a palavra `GitHub` e `Octocat` no arquivo README, você usaria a consulta seguinte com o ponto de extremidade _pesquisar repositórios_:
 
 ```
 GitHub Octocat in:readme user:defunkt

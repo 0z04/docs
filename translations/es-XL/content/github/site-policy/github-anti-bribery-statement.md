@@ -3,7 +3,10 @@ title: Declaración antisoborno de GitHub
 redirect_from:
   - /articles/github-anti-bribery-statement
 versions:
-  free-pro-team: '*'
+  fpt: '*'
+topics:
+  - Policy
+  - Legal
 ---
 
 GitHub defiende nuestro compromiso con prácticas comerciales éticas, que incluyen prohibir el soborno y la corrupción. Como la [Transparencia Internacional](https://www.transparency.org/what-is-corruption#costs-of-corruption) lo explica, los costos de la corrupción son:

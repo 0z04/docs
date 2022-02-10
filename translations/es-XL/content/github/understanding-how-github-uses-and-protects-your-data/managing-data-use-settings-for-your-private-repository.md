@@ -5,7 +5,10 @@ redirect_from:
   - /articles/opting-into-or-out-of-data-use-for-your-private-repository
   - /github/understanding-how-github-uses-and-protects-your-data/opting-into-or-out-of-data-use-for-your-private-repository
 versions:
-  free-pro-team: '*'
+  fpt: '*'
+topics:
+  - Policy
+  - Legal
 ---
 
 ### Acerca del uso de datos para tu repositorio privado

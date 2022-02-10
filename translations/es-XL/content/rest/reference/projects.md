@@ -3,8 +3,11 @@ title: Proyectos
 redirect_from:
   - /v3/projects
 versions:
-  free-pro-team: '*'
-  enterprise-server: '*'
+  fpt: '*'
+  ghes: '*'
+  ghae: '*'
+topics:
+  - API
 ---
 
 {% for operation in currentRestOperations %}

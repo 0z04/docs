@@ -1,32 +1,34 @@
 ---
 title: GitHub ActionsのためのDockerfileサポート
-shortTitle: Docker
+shortTitle: Dockerfile support
 intro: Dockerコンテナアクション用の`Dockerfile`を作成する際には、いくつかのDockerの命令がGitHub Actionsやアクションのメタデータファイルとどのように関わるのかを知っておく必要があります。
 product: '{% data reusables.gated-features.actions %}'
 redirect_from:
   - /actions/building-actions/dockerfile-support-for-github-actions
 versions:
-  free-pro-team: '*'
-  enterprise-server: '>=2.22'
+  fpt: '*'
+  ghes: '*'
+  ghae: '*'
 type: reference
 ---
 
 {% data reusables.actions.enterprise-beta %}
 {% data reusables.actions.enterprise-github-hosted-runners %}
+{% data reusables.actions.ae-beta %}
 
-### Dockerfileの命令について
+## Dockerfileの命令について
 
 `Dockerfile`には、Dockerコンテナの内容と起動時の動作を定義する命令と引数が含まれています。 Dockerがサポートしている命令に関する詳しい情報については、Dockerのドキュメンテーション中の「[Dockerfile のリファレンス](https://docs.docker.com/engine/reference/builder/)」を参照してください。
 
-### Dockerfileの命令とオーバーライド
+## Dockerfileの命令とオーバーライド
 
-Dockerの命令の中にはGitHub Actionsと関わるものがあり、アクションのメタデータファイルはDockerの命令のいくつかをオーバーライドできます。 予期しない動作を避けるために、Dockerfileが{% data variables.product.prodname_actions %}とどのように関わるかについて馴染んでおいてください。
+Dockerの命令の中にはGitHub Actionと関わるものがあり、アクションのメタデータファイルはDockerの命令のいくつかをオーバーライドできます。 予期しない動作を避けるために、Dockerfileが{% data variables.product.prodname_actions %}とどのように関わるかについて馴染んでおいてください。
 
-#### USER
+### USER
 
 DockerアクションはデフォルトのDockerユーザ（root）で実行されなければなりません。 `GITHUB_WORKSPACE`にアクセスできなくなってしまうので、`Dockerfile`中では`USER`命令を使わないでください。 詳しい情報については、「[環境変数の利用](/actions/configuring-and-managing-workflows/using-environment-variables)」と、Dockerのドキュメンテーション中の[USERのリファレンス](https://docs.docker.com/engine/reference/builder/#user)を参照してください。
 
-#### FROM
+### FROM
 
 `Dockerfile`ファイル中の最初の命令は`FROM`でなければなりません。これは、Dockerのベースイメージを選択します。 詳しい情報については、Dockerのドキュメンテーション中の[FROMのリファレンス](https://docs.docker.com/engine/reference/builder/#from)を参照してください。
 
@@ -36,11 +38,11 @@ DockerアクションはデフォルトのDockerユーザ（root）で実行さ�
 - バージョンタグが存在する場合は使ってください。メジャーバージョンも含めることが望ましいです。 たとえば`node:latest`よりも`node:10`を使ってください。
 - [Debian](https://www.debian.org/)オペレーティングシステムに基づくDockerイメージを使うことをおすすめします。
 
-#### WORKDIR
+### WORKDIR
 
 {% data variables.product.product_name %}は、ワーキングディレクトリのパスを環境変数の`GITHUB_WORKSPACE`に設定します。 `Dockerfile`中では`WORKDIR`命令を使わないことをおすすめします。 アクションが実行される前に、{% data variables.product.product_name %}は`GITHUB_WORKSPACE`ディレクトリを、Dockerイメージ内にあったその場所になにがあってもその上にマウントし、`GITHUB_WORKSPACE`をワーキングディレクトリとして設定します。 詳しい情報については「[環境変数の利用](/actions/configuring-and-managing-workflows/using-environment-variables)」と、Dockerのドキュメンテーション中の[WORKDIRのリファレンス](https://docs.docker.com/engine/reference/builder/#workdir)を参照してください。
 
-#### ENTRYPOINT
+### ENTRYPOINT
 
 アクションのメタデータファイル中で`entrypoint`を定義すると、それは`Dockerfile`中で定義された`ENTRYPOINT`をオーバーライドします。 詳しい情報については「[{% data variables.product.prodname_actions %}のメタデータ構文](/actions/creating-actions/metadata-syntax-for-github-actions/#runsentrypoint)」を参照してください。
 
@@ -60,7 +62,7 @@ ENTRYPOINT ["sh", "-c", "echo $GITHUB_SHA"]
 
  アクションのメタデータファイルに定義された`args`を、`ENTRYPOINT`中で_exec_形式を使うDockerコンテナに渡すには、`ENTRYPOINT`命令から呼ぶ`entrypoint.sh`というシェルスクリプトを作成することをおすすめします。
 
-##### *Dockerfile*の例
+#### *Dockerfile*の例
 
 ```dockerfile
 # コードを実行するコンテナイメージ
@@ -73,7 +75,7 @@ COPY entrypoint.sh /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
 ```
 
-##### *entrypoint.sh*ファイルの例
+#### *entrypoint.sh*ファイルの例
 
 上のDockerfileを使って、{% data variables.product.product_name %}はアクションのメタデータファイルに設定された`args`を、`entrypoint.sh`の引数として送ります。 `#!/bin/sh`[シバン](https://ja.wikipedia.org/wiki/シバン_(Unix))を`entrypoint.sh`ファイルの先頭に追加し、システムの[POSIX](https://ja.wikipedia.org/wiki/POSIX)準拠のシェルを明示的に使ってください。
 
@@ -96,7 +98,7 @@ sh -c "echo $*"
 Error response from daemon: OCI runtime create failed: container_linux.go:348: starting container process caused "exec: \"/entrypoint.sh\": permission denied": unknown
 ```
 
-#### CMD
+### CMD
 
 アクションのメタデータファイル中で`args`を定義すると、`args`は`Dockerfile`中で指定された`CMD`命令をオーバーライドします。 詳しい情報については「[{% data variables.product.prodname_actions %}のメタデータ構文](/actions/creating-actions/metadata-syntax-for-github-actions#runsargs)」を参照してください。
 
@@ -104,6 +106,6 @@ Error response from daemon: OCI runtime create failed: container_linux.go:348: s
 
 {% data reusables.github-actions.dockerfile-guidelines %}
 
-### サポートされているLinuxの機能
+## サポートされているLinuxの機能
 
 {% data variables.product.prodname_actions %}は、DockerがサポートするデフォルトのLinuxの機能をサポートします。 機能の追加や削除はできません。 DockerがサポートするデフォルトのLinuxの機能に関する詳しい情報については、Dockerのドキュメンテーション中の「[ Runtime privilege and Linux capabilities](https://docs.docker.com/engine/reference/run/#runtime-privilege-and-linux-capabilities)」を参照してください。 Linuxの機能についてさらに学ぶには、Linuxのman-pageの"[ Overview of Linux capabilities](http://man7.org/linux/man-pages/man7/capabilities.7.html)"を参照してください。

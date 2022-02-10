@@ -4,8 +4,11 @@ intro: 'Descarga el modelo público para la API de GraphQL de {% data variables.
 redirect_from:
   - /v4/public_schema
 versions:
-  free-pro-team: '*'
-  enterprise-server: '*'
+  fpt: '*'
+  ghes: '*'
+  ghae: '*'
+topics:
+  - API
 ---
 
 Puedes [realizar una introspección](/v4/guides/intro-to-graphql/#discovering-the-graphql-api) contra la API de GraphQL directamente.
